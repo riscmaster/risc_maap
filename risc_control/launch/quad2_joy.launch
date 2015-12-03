@@ -1,0 +1,10 @@
+<launch>
+<machine address="129.123.85.198" name="risc2" >
+</machine>
+<group ns="quad2">
+	<node name="joy_node" pkg="joy" type="joy_node" output="screen" clear_params="true">
+		<param name="dev" type="str" value="risc2@129.123.85.198:=/dev/input/js0"/>
+	</node>
+</group>
+
+</launch>

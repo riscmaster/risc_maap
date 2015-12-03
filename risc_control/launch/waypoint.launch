@@ -1,0 +1,4 @@
+<launch>
+  <node name="waypoints" pkg="quad_command" type="waypoints.py"  output="screen">
+    </node>
+</launch>

@@ -1,0 +1,13 @@
+string name
+float64 x
+float64 y
+float64 z
+float64 psi
+float64 xdot
+float64 ydot
+float64 zdot
+float64 psidot
+float64 xddot
+float64 yddot
+float64 zddot
+float64 psiddot

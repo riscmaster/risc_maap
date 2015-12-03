@@ -1,0 +1,28 @@
+<launch>
+
+	<!-- Declare Machines -->
+  <machine name="risc1" address="129.123.5.240"   user="risc" password="risc123" />
+  <machine name="risc2" address="129.123.5.200"   user="risc" password="risc123" />
+  <machine name="risc3" address="129.123.5.59"    user="risc" password="risc123" />
+  <machine name="risc4" address="129.123.85.143"  user="risc" password="risc123" />
+
+<group ns="risc2">
+	<node machine="risc2" name="joy_node" pkg="joy" type="joy_node" output="screen" clear_params="true">
+        <!-- Tell the computer where the joystick is connected. If you don't know enter in terminal$ ls /dev/input and you should see something similar to the value below.-->
+	<param name="dev" type="str" value="/dev/input/js0"/>
+	</node>
+ </group>
+<group ns="risc3">
+	<node machine="risc3" name="joy_node" pkg="joy" type="joy_node" output="screen" clear_params="true">
+        <!-- Tell the computer where the joystick is connected. If you don't know enter in terminal$ ls /dev/input and you should see something similar to the value below.-->
+	<param name="dev" type="str" value="/dev/input/js0"/>
+	</node>
+ </group>
+<group ns="risc4">
+	<node machine="risc4" name="joy_node" pkg="joy" type="joy_node" output="screen" clear_params="true">
+        <!-- Tell the computer where the joystick is connected. If you don't know enter in terminal$ ls /dev/input and you should see something similar to the value below.-->
+	<param name="dev" type="str" value="/dev/input/js0"/>
+	</node>
+ </group>
+
+</launch>

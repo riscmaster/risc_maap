@@ -1,0 +1,21 @@
+# Albatross
+image_width: 640
+image_height: 360
+camera_name: ardrone_front
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [587.4757313092834, 0, 332.1513063903836, 0, 584.4748516529667, 198.1363554893112, 0, 0, 1]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.629084, 0.388896, -0.002180, 0.001088, 0.000000]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [512.198853, 0.000000, 351.289336, 0.000000, 0.000000, 593.455444, 196.332091, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000]

@@ -1,0 +1,23 @@
+<package>
+  <description brief="quad_command">
+
+     quad_command
+
+  </description>
+  <author>LAW</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/quad_command</url>
+  <depend package="roscpp"/>
+  <depend package="rospy"/>
+  <depend package="std_msgs"/>
+  <depend package="cortex_ros"/>
+  <depend package="nav_msgs"/>
+  <depend package="eigen_conversions"/>
+  <depend package="risc_msgs"/>
+  <depend package="image_transport"/>
+  <depend package="cv_bridge"/>
+
+</package>
+
+

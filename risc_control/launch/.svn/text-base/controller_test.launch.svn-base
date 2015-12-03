@@ -1,0 +1,32 @@
+<launch>
+<!-- Launches the joystick controller -->
+	<node name="joystick_controller" pkg="quad_command" type="risc_controller.py" output="screen" required="true">
+		
+		<!-- Configures the joystick button mapping -->
+		<param name="JoytoWay"	                value="1" />
+		<param name="ButtonEmergency"	        value="0" />
+		<param name="TakeoffLand"	        value="8" />
+		<param name="Up"	         	value="10" />
+		<param name="Down"			value="11" />
+		<param name="ShutDownNode"		value="9" />
+		<param name="Quad1"	         	value="4" />
+		<param name="Quad2"	         	value="5" />
+		<param name="Quad3"	         	value="6" />
+		<param name="Quad4"	         	value="7" />
+		
+
+		<!-- Configures the joystick axis mapping -->
+		<param name="AxisRoll"			value="0" />
+		<param name="AxisPitch"			value="1" />
+		<param name="AxisYaw"			value="2" />
+		<param name="Waynorthsouth"	       	value="4" />
+		<param name="Wayeastwest"	       	value="5" />
+
+		<!-- Configures the joystick mapping -->
+		<param name="ScaleRoll"			value="10" />
+		<param name="ScalePitch"		value="10" />
+		<param name="ScaleYaw"			value="1" />
+		<param name="ScaleZ"			value="1" />
+
+	</node>
+</launch>

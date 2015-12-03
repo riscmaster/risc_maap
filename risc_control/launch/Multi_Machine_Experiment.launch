@@ -1,0 +1,298 @@
+<launch>
+
+<!-- Declare Machines -->
+    <machine name="risc1" address="129.123.5.240"  env-loader="/home/risc/ros_ws/devel/coop.sh" user="risc" password="risc123" />
+    <machine name="risc2" address="129.123.5.200"  env-loader="/home/risc/ros_ws/devel/coop.sh" user="risc" password="risc123" />
+    <machine name="risc3" address="129.123.5.59"   env-loader="/home/risc/ros_ws/devel/coop.sh" user="risc" password="risc123" />
+    <machine name="risc4" address="129.123.85.143" env-loader="/home/risc/ros_ws/devel/coop.sh" user="risc" password="risc123" />
+
+<!-- ========================                            
+     Main Nodes for Operation    
+     ======================== -->
+
+    <!-- Get Cortex marker data Streaming -->
+        <node machine="risc1" pkg="cortex_ros" type="stream_markers" name="stream_markers" output="screen">
+        </node>
+    
+    <!-- Get Cortex State estimation given Templates -->
+        <node machine="risc1" pkg="risc_estimation" type="states_estimation.py" name="states_estimation" output="screen">
+        </node>
+    
+    <!-- Get trajectory -->
+        <node machine="risc1" pkg="risc_control" type="circles3_traj.py" name="trajectory" output="screen">
+        </node>
+    
+    <!-- Get Controls -->
+        <node machine="risc1" pkg="risc_control" type="generic_DF_controller.py" name="controller" output="screen">
+        </node>
+
+<!-- ===============
+      Risc 2 Nodes 
+     =============== -->
+
+<group ns="risc1">
+    <!-- Launch the AR.Drone driver -->
+        	<node machine="risc2" name="ardrone_driver" pkg="ardrone_autonomy" type="ardrone_driver" output="screen" clear_params="true">
+                <!-- Set up rosparams for saturation values and agressiveness -->
+        	        <param name="outdoor" value="0" />				<!-- If we are flying outdoors, will select more aggressive default settings -->
+        	        <param name="flight_without_shell" value="0" /> <!-- Changes internal controller gains if we are flying without the propeller guard -->
+        	        
+        	        <param name="altitude_max" value="3000" />		<!-- in millimeters = 3 meters = 9' -->
+                    <param name="altitude_min" value="50" />		<!-- in millimeters = 5cm = 2" -->
+                    <param name="euler_angle_max" value="0.349066" />	<!-- maximum allowable body angle in radians = 5 degrees -->
+                    <param name="control_vz_max" value="1000" />		<!-- maximum z velocity in mm/sec = 0.2m/sec -->
+        	        <param name="control_yaw" value=".349066" />		<!-- maximum rotation rate in radians/sec = 40 degrees per second (1/9 rev/sec) -->
+        
+        	        <param name="detect_type" value="10" />
+        	        <param name="detections_select_h" value="32" />	<!-- In the horizontal camera, look for the orange-blue-orange markers -->
+        	        <param name="detections_select_v_hsync" value="128" />  <!-- In the vertical camera, detect the A4 marker -->
+        	        <param name="enemy_colors" value="3" />			<!-- Orange-Blue-Orange = 3 -->
+        	        <param name="enemy_without_shell" value="0" />	<!-- Detect the indoor stickers, rather than the outdoor hull -->
+        	</node>
+            
+        <!-- Launch the joystick publisher -->
+            <node machine="risc2" name="joy_node" pkg="joy" type="joy_node" output="screen" clear_params="true">
+            <!-- Tell the computer where the joystick is connected. 
+                 If you don't know enter in terminal$ ls /dev/input 
+                 and you should see something similar to the value below.-->
+                <param name="dev" type="str" value="/dev/input/js0"/>
+        	</node>
+        
+        <!-- Launch the joystick controller -->
+        	<node machine="risc2" name="joystick_controller" pkg="risc_control" type="risc1_controller.py" output="screen" required="true">
+        		
+        		<!-- Configures the joystick button mapping -->
+        		    <param name="JoytoWay"	                value="0" />
+        		    <param name="ButtonEmergency"	        value="2" />
+        		    <param name="TakeoffLand"	        value="6" />
+        		    <param name="Up"	         	value="9" />
+        		    <param name="Down"			value="10" />
+        		    <param name="ShutDownNode"		value="7" />
+        		
+        
+        		<!-- Configures the joystick axis mapping -->
+        		    <param name="AxisRoll"			value="6" />
+        		    <param name="AxisPitch"			value="7" />
+        		    <param name="AxisYaw"			value="3" />
+        
+        		<!-- Configures the joystick mapping -->
+        		    <param name="ScaleRoll"			value="3" />
+        		    <param name="ScalePitch"		value="3" />
+        		    <param name="ScaleYaw"			value="1" />
+        		    <param name="ScaleZ"			value="1" />
+        
+        		<!-- Configures Transition State Variables -->
+        		    <param name="Simulation"		value="False" />
+        		    <param name="delay"	        	value="0.3" />
+        		    <param name="/controller_status"		value="False" />
+        
+            </node>
+</group >
+
+<group ns="/risc1/ardrone/">
+        <!-- Camera Calibration -->
+                <node machine="risc2" name="image_proc" pkg="image_proc"   type="image_proc"/>
+                    <param name="camera_info_url" value="file://$(find risc_visual)/camera_calibration_files/risc1.yaml" />
+</group >
+
+<!-- =======================================================================
+      NOTE: There must exist the following file path on the target machine: 
+            "~/.ros/camera_info/ardrone_front.yaml"
+            This is used in initializing the camera for calibration.
+     ======================================================================= -->
+
+
+<!-- ===============
+      Risc 3 Nodes 
+     =============== -->
+
+<group ns="risc2">
+    <!-- Launch the AR.Drone driver -->
+        	<node machine="risc3" name="ardrone_driver" pkg="ardrone_autonomy" type="ardrone_driver" output="screen" clear_params="true">
+                <!-- Set up rosparams for saturation values and agressiveness -->
+        	        <param name="outdoor" value="0" />				<!-- If we are flying outdoors, will select more aggressive default settings -->
+        	        <param name="flight_without_shell" value="0" /> <!-- Changes internal controller gains if we are flying without the propeller guard -->
+        	        
+        	        <param name="altitude_max" value="3000" />		<!-- in millimeters = 3 meters = 9' -->
+                    <param name="altitude_min" value="50" />		<!-- in millimeters = 5cm = 2" -->
+                    <param name="euler_angle_max" value="0.349066" />	<!-- maximum allowable body angle in radians = 5 degrees -->
+                    <param name="control_vz_max" value="1000" />		<!-- maximum z velocity in mm/sec = 0.2m/sec -->
+        	        <param name="control_yaw" value=".349066" />		<!-- maximum rotation rate in radians/sec = 40 degrees per second (1/9 rev/sec) -->
+        
+        	        <param name="detect_type" value="10" />
+        	        <param name="detections_select_h" value="32" />	<!-- In the horizontal camera, look for the orange-blue-orange markers -->
+        	        <param name="detections_select_v_hsync" value="128" />  <!-- In the vertical camera, detect the A4 marker -->
+        	        <param name="enemy_colors" value="3" />			<!-- Orange-Blue-Orange = 3 -->
+        	        <param name="enemy_without_shell" value="0" />	<!-- Detect the indoor stickers, rather than the outdoor hull -->
+        	</node>
+            
+        <!-- Launch the joystick publisher -->
+            <node machine="risc3" name="joy_node" pkg="joy" type="joy_node" output="screen" clear_params="true">
+            <!-- Tell the computer where the joystick is connected. 
+                 If you don't know enter in terminal$ ls /dev/input 
+                 and you should see something similar to the value below.-->
+                <param name="dev" type="str" value="/dev/input/js0"/>
+        	</node>
+        
+        <!-- Launch the joystick controller -->
+        	<node machine="risc3" name="joystick_controller" pkg="risc_control" type="risc2_controller.py" output="screen" required="true">
+        		
+        		<!-- Configures the joystick button mapping -->
+        		    <param name="JoytoWay"	                value="0" />
+        		    <param name="ButtonEmergency"	        value="2" />
+        		    <param name="TakeoffLand"	        value="6" />
+        		    <param name="Up"	         	value="9" />
+        		    <param name="Down"			value="10" />
+        		    <param name="ShutDownNode"		value="7" />
+        		
+        
+        		<!-- Configures the joystick axis mapping -->
+        		    <param name="AxisRoll"			value="6" />
+        		    <param name="AxisPitch"			value="7" />
+        		    <param name="AxisYaw"			value="3" />
+        
+        		<!-- Configures the joystick mapping -->
+        		    <param name="ScaleRoll"			value="3" />
+        		    <param name="ScalePitch"		value="3" />
+        		    <param name="ScaleYaw"			value="1" />
+        		    <param name="ScaleZ"			value="1" />
+        
+        		<!-- Configures Transition State Variables -->
+        		    <param name="Simulation"		value="False" />
+        		    <param name="delay"	        	value="0.3" />
+        		    <param name="/controller_status"		value="False" />
+        
+            </node>
+
+</group >
+<group ns="/risc2/ardrone/">
+        <!-- Camera Calibration -->
+                <node machine="risc3" name="image_proc" pkg="image_proc"   type="image_proc"/>
+                    <param name="camera_info_url" value="file://$(find risc_visual)/camera_calibration_files/risc2.yaml" />
+</group >
+
+
+<!-- ===============
+      Risc 4 Nodes 
+     =============== -->
+
+<group ns="risc3">
+    <!-- Launch the AR.Drone driver -->
+        	<node machine="risc4" name="ardrone_driver" pkg="ardrone_autonomy" type="ardrone_driver" output="screen" clear_params="true">
+                <!-- Set up rosparams for saturation values and agressiveness -->
+        	        <param name="outdoor" value="0" />				<!-- If we are flying outdoors, will select more aggressive default settings -->
+        	        <param name="flight_without_shell" value="0" /> <!-- Changes internal controller gains if we are flying without the propeller guard -->
+        	        
+        	        <param name="altitude_max" value="3000" />		<!-- in millimeters = 3 meters = 9' -->
+                    <param name="altitude_min" value="50" />		<!-- in millimeters = 5cm = 2" -->
+                    <param name="euler_angle_max" value="0.349066" />	<!-- maximum allowable body angle in radians = 5 degrees -->
+                    <param name="control_vz_max" value="1000" />		<!-- maximum z velocity in mm/sec = 0.2m/sec -->
+        	        <param name="control_yaw" value=".349066" />		<!-- maximum rotation rate in radians/sec = 40 degrees per second (1/9 rev/sec) -->
+        
+        	        <param name="detect_type" value="10" />
+        	        <param name="detections_select_h" value="32" />	<!-- In the horizontal camera, look for the orange-blue-orange markers -->
+        	        <param name="detections_select_v_hsync" value="128" />  <!-- In the vertical camera, detect the A4 marker -->
+        	        <param name="enemy_colors" value="3" />			<!-- Orange-Blue-Orange = 3 -->
+        	        <param name="enemy_without_shell" value="0" />	<!-- Detect the indoor stickers, rather than the outdoor hull -->
+        	</node>
+            
+        <!-- Launch the joystick publisher -->
+            <node machine="risc4" name="joy_node" pkg="joy" type="joy_node" output="screen" clear_params="true">
+            <!-- Tell the computer where the joystick is connected. 
+                 If you don't know enter in terminal$ ls /dev/input 
+                 and you should see something similar to the value below.-->
+                <param name="dev" type="str" value="/dev/input/js0"/>
+        	</node>
+        
+        <!-- Launch the joystick controller -->
+        	<node machine="risc4" name="joystick_controller" pkg="risc_control" type="risc3_controller.py" output="screen" required="true">
+        		
+        		<!-- Configures the joystick button mapping -->
+        		    <param name="JoytoWay"	                value="0" />
+        		    <param name="ButtonEmergency"	        value="2" />
+        		    <param name="TakeoffLand"	        value="6" />
+        		    <param name="Up"	         	value="9" />
+        		    <param name="Down"			value="10" />
+        		    <param name="ShutDownNode"		value="7" />
+        		
+        
+        		<!-- Configures the joystick axis mapping -->
+        		    <param name="AxisRoll"			value="6" />
+        		    <param name="AxisPitch"			value="7" />
+        		    <param name="AxisYaw"			value="3" />
+        
+        		<!-- Configures the joystick mapping -->
+        		    <param name="ScaleRoll"			value="3" />
+        		    <param name="ScalePitch"		value="3" />
+        		    <param name="ScaleYaw"			value="1" />
+        		    <param name="ScaleZ"			value="1" />
+        
+        		<!-- Configures Transition State Variables -->
+        		    <param name="Simulation"		value="False" />
+        		    <param name="delay"	        	value="0.3" />
+        		    <param name="/controller_status"		value="False" />
+        
+            </node>
+
+</group >
+
+<group ns="/risc3/ardrone/">
+        <!-- Camera Calibration -->
+                <node machine="risc4" name="image_proc" pkg="image_proc"   type="image_proc"/>
+                    <param name="camera_info_url" value="file://$(find risc_visual)/camera_calibration_files/risc3.yaml" />
+</group >
+
+
+<!-- =============================================
+      Nodes for Camera Calibration and Transforms  
+      This Perhaps Should be Run on a Designated  
+      Image Processing Machine to decrease the     
+      load on other machines.			 
+     ============================================= -->
+
+    <!-- Landmark Recognition -->
+        <node machine="risc1" name="landmarks" pkg="risc_visual"  type="risc_landmarks"               output="screen" required="true">
+        </node >
+
+    <!-- Angle Estimation -->
+        <node machine="risc1" name="angles" pkg="risc_estimation"  type="angle_estimation.py"               output="screen" required="true">
+        </node >
+
+    <!-- Angle Drawing -->
+        <node  machine="risc1" name="draw_angles" pkg="risc_visual" type="draw_angles"  output="screen" required="true">
+        </node >
+
+<!-- =============================================
+      Nodes for Camera Calibration and Transforms  
+     ============================================= -->
+
+<!-- Create Transforms -->
+<node machine="risc1" name="transform_tuner" pkg="risc_control" type="transforms" output="screen"     required="true">
+</node >
+
+<!-- =========================================
+      Nodes for RVIZ Markers and MarkerArrays 
+     ========================================= -->
+
+<!-- Draw the RISC Multi Agent Analysis    Platform -->
+<node machine="risc1" name="draw_risc_maap"             pkg="risc_visual" type="draw_risc_maap"        output="screen"     required="true">
+</node >
+
+<!-- Draw Cortex Objects -->
+<node machine="risc1" name="draw_cortex" pkg="risc_visual" type="draw_cortex"  output="screen"            required="true">
+</node>
+
+
+<!-- Start RVIZ using Diff_flat config file -->
+<node machine="risc1" name="rviz" pkg="rviz" type="rviz" args="-d $(find risc_visual)/config/Trans_tuner.rviz" output="screen" required="true">
+</node>
+
+<!-- ==========
+      Bag Data 
+     ========== -->
+
+<node machine="risc1" pkg="rosbag" type="record" name="bagger"
+       args="record -o /tmp/coop_loc_data /risc4/ardrone/image_rect_color /risc2/ardrone/image_rect_color /risc3/ardrone/image_rect_color /states3 /cortex_raw /controls /angles /risc4/ardrone/navdata /risc2/ardrone/navdata /risc3/ardrone/navdata /risc2/cmd_vel /risc3/cmd_vel /risc4/cmd_vel /trajectory /tf /rosout"/>
+
+
+</launch>

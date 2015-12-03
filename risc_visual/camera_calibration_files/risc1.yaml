@@ -1,0 +1,21 @@
+# fluff_II
+image_width: 640
+image_height: 360
+camera_name: ardrone_front
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [977.994066, 0.000000, 357.362844, 0.000000, 975.285107, 160.919363, 0.000000, 0.000000, 1.000000]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-1.455445, 1.626447, 0.014496, -0.028790, 0.000000]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [792.300659, 0.000000, 356.921090, 0.000000, 0.000000, 921.526917, 160.038265, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000]

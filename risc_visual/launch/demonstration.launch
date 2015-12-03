@@ -1,0 +1,26 @@
+<launch>
+
+    <node pkg="rosbag" type="play" name="player" output="screen" args="-l /home/ece/data/bag/21_aug_2014/2014-08-22-13-15-22.bag"/>
+
+   <node name="transforms" pkg="quad_command" type="transforms"  output="screen" required="true">
+    </node>
+    
+    <node name="rois" pkg="risc_visual" type="detect_objects"  output="screen" required="true">
+    </node>
+
+    <node name="angles" pkg="quad_command" type="angle_estimation.py"  output="screen" required="true">
+    </node>
+
+    <node name="draw_angles" pkg="risc_visual" type="draw_angles"  output="screen" required="true">
+    </node>
+
+    <node name="draw_cortex" pkg="risc_visual" type="draw_cortex"  output="screen" required="true">
+    </node>
+
+    <node name="draw_waypoints" pkg="risc_visual" type="draw_waypoints"  output="screen" required="true">
+    </node>
+
+    <node name="rviz" pkg="rviz" type="rviz"  output="screen" required="true">
+    </node>
+
+</launch>

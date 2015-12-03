@@ -1,0 +1,8 @@
+<launch>
+  <node pkg="cortex_ros" type="stream" name="stream" output="screen">
+    </node>
+  <node pkg="quad_command" type="transforms" name="transforms" output="screen">
+    </node>
+  <node name="waypoints" pkg="quad_command" type="waypoints.py"  output="screen">
+    </node>
+</launch>

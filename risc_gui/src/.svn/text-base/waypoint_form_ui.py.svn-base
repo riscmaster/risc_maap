@@ -1,0 +1,130 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'waypoints.ui'
+#
+# Created: Wed Aug 13 13:33:24 2014
+#      by: PyQt4 UI code generator 4.9.1
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt4 import QtCore, QtGui
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
+class clickable_graphics_view(QtGui.QGraphicsView):
+    def mouseDoubleClickEvent(self, event):
+        self.emit(QtCore.SIGNAL("graphicsview_doubleClick"), event)
+
+class Ui_waypointDialog(object):
+    def setupUi(self, waypointDialog):
+        waypointDialog.setObjectName(_fromUtf8("waypointDialog"))
+        waypointDialog.resize(622, 528)
+        self.graphicsView = clickable_graphics_view(waypointDialog)
+        self.graphicsView.setGeometry(QtCore.QRect(10, 10, 531, 361))
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.graphicsView.sizePolicy().hasHeightForWidth())
+        self.graphicsView.setSizePolicy(sizePolicy)
+        self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
+        self.layoutWidget = QtGui.QWidget(waypointDialog)
+        self.layoutWidget.setGeometry(QtCore.QRect(390, 390, 151, 121))
+        self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
+        self.verticalLayout = QtGui.QVBoxLayout(self.layoutWidget)
+        self.verticalLayout.setMargin(0)
+        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.deleteButton = QtGui.QPushButton(self.layoutWidget)
+        self.deleteButton.setObjectName(_fromUtf8("deleteButton"))
+        self.verticalLayout.addWidget(self.deleteButton)
+        self.okButton = QtGui.QPushButton(self.layoutWidget)
+        self.okButton.setObjectName(_fromUtf8("okButton"))
+        self.verticalLayout.addWidget(self.okButton)
+        self.cancelButton = QtGui.QPushButton(self.layoutWidget)
+        self.cancelButton.setObjectName(_fromUtf8("cancelButton"))
+        self.verticalLayout.addWidget(self.cancelButton)
+        self.label_2 = QtGui.QLabel(waypointDialog)
+        self.label_2.setGeometry(QtCore.QRect(550, 10, 66, 17))
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.layoutWidget1 = QtGui.QWidget(waypointDialog)
+        self.layoutWidget1.setGeometry(QtCore.QRect(560, 30, 31, 341))
+        self.layoutWidget1.setObjectName(_fromUtf8("layoutWidget1"))
+        self.verticalLayout_2 = QtGui.QVBoxLayout(self.layoutWidget1)
+        self.verticalLayout_2.setMargin(0)
+        self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
+        self.altitudeSlider = QtGui.QSlider(self.layoutWidget1)
+        self.altitudeSlider.setProperty("value", 10)
+        self.altitudeSlider.setOrientation(QtCore.Qt.Vertical)
+        self.altitudeSlider.setObjectName(_fromUtf8("altitudeSlider"))
+        self.verticalLayout_2.addWidget(self.altitudeSlider)
+        self.altitudeLabel = QtGui.QLabel(self.layoutWidget1)
+        self.altitudeLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.altitudeLabel.setObjectName(_fromUtf8("altitudeLabel"))
+        self.verticalLayout_2.addWidget(self.altitudeLabel)
+        self.layoutWidget2 = QtGui.QWidget(waypointDialog)
+        self.layoutWidget2.setGeometry(QtCore.QRect(22, 392, 197, 125))
+        self.layoutWidget2.setObjectName(_fromUtf8("layoutWidget2"))
+        self.formLayout = QtGui.QFormLayout(self.layoutWidget2)
+        self.formLayout.setMargin(0)
+        self.formLayout.setObjectName(_fromUtf8("formLayout"))
+        self.label = QtGui.QLabel(self.layoutWidget2)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.formLayout.setWidget(0, QtGui.QFormLayout.SpanningRole, self.label)
+        self.rateDial = QtGui.QDial(self.layoutWidget2)
+        self.rateDial.setMaximum(600)
+        self.rateDial.setProperty("value", 300)
+        self.rateDial.setOrientation(QtCore.Qt.Horizontal)
+        self.rateDial.setInvertedAppearance(False)
+        self.rateDial.setNotchesVisible(False)
+        self.rateDial.setObjectName(_fromUtf8("rateDial"))
+        self.formLayout.setWidget(1, QtGui.QFormLayout.LabelRole, self.rateDial)
+        self.rateLabel = QtGui.QLabel(self.layoutWidget2)
+        self.rateLabel.setObjectName(_fromUtf8("rateLabel"))
+        self.formLayout.setWidget(1, QtGui.QFormLayout.FieldRole, self.rateLabel)
+        self.layoutWidget3 = QtGui.QWidget(waypointDialog)
+        self.layoutWidget3.setGeometry(QtCore.QRect(252, 392, 118, 131))
+        self.layoutWidget3.setObjectName(_fromUtf8("layoutWidget3"))
+        self.verticalLayout_3 = QtGui.QVBoxLayout(self.layoutWidget3)
+        self.verticalLayout_3.setMargin(0)
+        self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
+        self.label_3 = QtGui.QLabel(self.layoutWidget3)
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.verticalLayout_3.addWidget(self.label_3)
+        self.quad1RadioButton = QtGui.QRadioButton(self.layoutWidget3)
+        self.quad1RadioButton.setChecked(True)
+        self.quad1RadioButton.setObjectName(_fromUtf8("quad1RadioButton"))
+        self.verticalLayout_3.addWidget(self.quad1RadioButton)
+        self.quad2RadioButton = QtGui.QRadioButton(self.layoutWidget3)
+        self.quad2RadioButton.setObjectName(_fromUtf8("quad2RadioButton"))
+        self.verticalLayout_3.addWidget(self.quad2RadioButton)
+        self.quad3RadioButton = QtGui.QRadioButton(self.layoutWidget3)
+        self.quad3RadioButton.setObjectName(_fromUtf8("quad3RadioButton"))
+        self.verticalLayout_3.addWidget(self.quad3RadioButton)
+        self.quad4RadioButton = QtGui.QRadioButton(self.layoutWidget3)
+        self.quad4RadioButton.setObjectName(_fromUtf8("quad4RadioButton"))
+        self.verticalLayout_3.addWidget(self.quad4RadioButton)
+
+        self.retranslateUi(waypointDialog)
+        QtCore.QObject.connect(self.okButton, QtCore.SIGNAL(_fromUtf8("clicked()")), waypointDialog.accept)
+        QtCore.QObject.connect(self.cancelButton, QtCore.SIGNAL(_fromUtf8("clicked()")), waypointDialog.reject)
+        QtCore.QObject.connect(self.altitudeSlider, QtCore.SIGNAL(_fromUtf8("sliderMoved(int)")), self.altitudeLabel.setNum)
+        QtCore.QObject.connect(self.rateDial, QtCore.SIGNAL(_fromUtf8("sliderMoved(int)")), self.rateLabel.setNum)
+        QtCore.QMetaObject.connectSlotsByName(waypointDialog)
+
+    def retranslateUi(self, waypointDialog):
+        waypointDialog.setWindowTitle(QtGui.QApplication.translate("waypointDialog", "Waypoints", None, QtGui.QApplication.UnicodeUTF8))
+        self.deleteButton.setText(QtGui.QApplication.translate("waypointDialog", "Delete All", None, QtGui.QApplication.UnicodeUTF8))
+        self.okButton.setText(QtGui.QApplication.translate("waypointDialog", "Create Waypoints", None, QtGui.QApplication.UnicodeUTF8))
+        self.cancelButton.setText(QtGui.QApplication.translate("waypointDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("waypointDialog", "Altitude:", None, QtGui.QApplication.UnicodeUTF8))
+        self.altitudeLabel.setText(QtGui.QApplication.translate("waypointDialog", "10", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("waypointDialog", "Command rate (/10 seconds):", None, QtGui.QApplication.UnicodeUTF8))
+        self.rateLabel.setText(QtGui.QApplication.translate("waypointDialog", "100", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setText(QtGui.QApplication.translate("waypointDialog", "Quadrotor:", None, QtGui.QApplication.UnicodeUTF8))
+        self.quad1RadioButton.setText(QtGui.QApplication.translate("waypointDialog", "Quad1", None, QtGui.QApplication.UnicodeUTF8))
+        self.quad2RadioButton.setText(QtGui.QApplication.translate("waypointDialog", "Quad2", None, QtGui.QApplication.UnicodeUTF8))
+        self.quad3RadioButton.setText(QtGui.QApplication.translate("waypointDialog", "Quad3", None, QtGui.QApplication.UnicodeUTF8))
+        self.quad4RadioButton.setText(QtGui.QApplication.translate("waypointDialog", "Quad4", None, QtGui.QApplication.UnicodeUTF8))
+

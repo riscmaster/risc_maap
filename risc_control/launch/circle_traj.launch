@@ -1,0 +1,4 @@
+<launch>
+    <node name="trajectory" pkg="quad_command" type="trajectory.py"  output="screen" required="true">
+    </node>
+</launch>

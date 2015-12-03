@@ -1,0 +1,21 @@
+# Raven
+iimage_width: 640
+image_height: 360
+camera_name: ardrone_front
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [663.931413, 0.000000, 385.105531, 0.000000, 670.012130, 182.633137, 0.000000, 0.000000, 1.000000]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.684161 0.288271 0.008015 -0.044440 0.000000]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [538.507324, 0.000000, 377.919170, 0.000000, 0.000000, 634.199646, 183.942123, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000]

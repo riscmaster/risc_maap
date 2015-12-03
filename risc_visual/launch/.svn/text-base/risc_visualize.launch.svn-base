@@ -1,0 +1,18 @@
+<launch>
+
+    <node name="transforms" pkg="risc_control" type="transforms"  output="screen" required="true">
+    </node>
+
+    <node name="draw_risc_maap" pkg="risc_visual" type="draw_risc_maap"  output="screen" required="true">
+    </node>
+
+    <node name="draw_cortex" pkg="risc_visual" type="draw_cortex"  output="screen" required="true">
+    </node>
+
+    <node name="draw_trajectories" pkg="risc_visual" type="draw_trajectories"  output="screen" required="true">
+    </node>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find risc_visual)/config/Diff_flat.rviz" output="screen" required="true">
+    </node>
+
+</launch>

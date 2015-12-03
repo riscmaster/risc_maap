@@ -1,0 +1,109 @@
+<launch>
+
+	<!-- Get Pendulum Trajectory -->
+  <node pkg="risc_control" type="pendulum_trajectory.py" name="trajectory" output="screen">
+  </node>
+
+<!-- Launch the joystick publisher -->
+	<node name="joy_node" pkg="joy" type="joy_node" output="screen" clear_params="true">
+        <!-- Tell the computer where the joystick is connected. If you don't know enter in terminal$ ls /dev/input and you should see something similar to the value below.-->
+	<param name="dev" type="str" value="/dev/input/js0"/>
+	</node>
+
+
+
+	<!-- Get Simulation Running -->
+  <node pkg="risc_simulator" type="ardrone_pen_sim.py" name="quad_simulator" output="screen">
+ 	<!-- Set up rosparams for saturation values and agressiveness -->
+	    <param name="altitude_max" value="3000" />		<!-- in millimeters = 3 meters = 9' -->
+        <param name="altitude_min" value="50" />		<!-- in millimeters = 5cm = 2" -->
+        <param name="euler_angle_max" value="0.349066" />	<!-- 20 degrees -->
+        <param name="control_vz_max" value="1000" />		<!-- maximum z velocity in mm/sec = 0.2m/sec -->
+	    <param name="control_yaw" value=".349066" />		<!-- radians/sec = 40 degrees per second-->
+	<!-- Initial Conditions -->
+	    <param name="Initial_x" value="1.0" />	
+	    <param name="Initial_y" value="1.0" />	
+	    <param name="Initial_z" value="1.0" />	
+	    <param name="Initial_u" value="0.0" />	
+	    <param name="Initial_v" value="0.0" />	
+	    <param name="Initial_w" value="0.0" />	
+	    <param name="Initial_phi" value="0.0" />	
+	    <param name="Initial_theta" value="0.0" />	
+	    <param name="Initial_psi" value="0.0" />	
+	    <param name="Initial_p" value="0.0" />	
+	    <param name="Initial_q" value="0.0" />	
+	    <param name="Initial_r" value="0.0" />	
+	<!-- Inertial Parameters -->
+	    <param name="Ixx" value="0.002237568" />	
+	    <param name="Iyy" value="0.002985236" />	
+	    <param name="Izz" value="0.00480374" />	
+	<!-- Gains -->
+	    <param name="roll_kp" value="0.0757" />	
+	    <param name="roll_kg" value="1.1714" />	
+	    <param name="roll_kd" value="0.0192" />	
+	    <param name="pitch_kp" value="0.0944" />	
+	    <param name="pitch_kg" value="1.10714" />	
+	    <param name="pitch_kd" value="0.0205" />	
+	    <param name="yaw_kp" value="1.2" />	
+	    <param name="yaw_kg" value="1" />	
+	</node>                            
+
+	<!-- Get Pendulum Simulation -->
+  <node pkg="risc_simulator" type="Inverted_Pendulum_Sim.py" name="pendulum" output="screen">
+  </node>
+
+	<!-- Get Controls -->
+  <node pkg="risc_control" type="Pendulum_Control.py" name="controller" output="screen">
+  </node>
+<!-- Launch the joystick controller -->
+	<node name="joystick_controller" pkg="risc_control" type="risc_controller.py" output="screen" required="true">
+		
+		<!-- Configures the joystick button mapping -->
+		<param name="JoytoWay"	       value="0" />
+		<param name="ButtonEmergency"  value="2" />
+		<param name="TakeoffLand"	   value="6" />
+		<param name="Up"	           value="9" />
+		<param name="Down"		       value="10" />
+		<param name="ShutDownNode"	   value="7" />
+		
+
+		<!-- Configures the joystick axis mapping -->
+		<param name="AxisRoll"			value="0" />
+		<param name="AxisPitch"			value="1" />
+		<param name="AxisYaw"			value="3" />
+
+		<!-- Configures the joystick mapping -->
+		<param name="ScaleRoll"			value="3" />
+		<param name="ScalePitch"		value="3" />
+		<param name="ScaleYaw"			value="1" />
+		<param name="ScaleZ"			value="1" />
+
+		<!-- Informs controller that this is a Simulation -->
+		<param name="Simulation"			value="True" />
+        <param name="delay"                 value="0.3" />
+		<param name="RESET"		        	value="False" />
+        <param name="/controller_status"    value="False" />
+
+	</node>
+
+<!-- Create Transforms -->
+  <node name="transforms" pkg="risc_control" type="transforms"  output="screen" required="true"> 
+  </node> 
+
+<!-- Draw the RISC Multi Agent Analysis Platform -->
+  <node name="draw_risc_maap" pkg="risc_visual" type="draw_risc_maap"  output="screen" required="true"> 
+  </node> 
+  
+<!-- Draw Cortex Objects -->
+  <node name="draw_cortex" pkg="risc_visual" type="draw_cortex"  output="screen" required="true"> 
+  </node> 
+
+<!-- Draw Trajectories -->
+  <node name="draw_trajectories" pkg="risc_visual" type="draw_trajectories"  output="screen" required="true"> 
+  </node> 
+
+<!-- Start RVIZ using Diff_flat config file -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find risc_visual)/config/Diff_flat.rviz" output="screen"       required="true">
+  </node>
+
+</launch>
