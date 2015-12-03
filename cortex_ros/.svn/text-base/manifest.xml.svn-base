@@ -1,0 +1,18 @@
+<package>
+  <description brief="cortex_ros">
+
+     cortex_ros
+
+  </description>
+  <author>LAW</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/cortex_ros</url>
+  <depend package="roscpp"/>
+  <depend package="tf"/>
+  <depend package="risc_msgs"/>
+  <depend package="visualization_msgs"/>
+
+</package>
+
+
